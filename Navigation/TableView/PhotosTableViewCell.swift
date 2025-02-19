@@ -10,7 +10,7 @@ import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
     
-    private let title: UILabel = {
+    private(set) lazy var title: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textColor = .black
@@ -19,19 +19,27 @@ class PhotosTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let imagesStack: UIStackView = {
+    private(set) lazy var imagesStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.distribution = .fillProportionally
         stack.alignment = .fill
-        
-        stack.backgroundColor = .cyan
+        stack.backgroundColor = .systemRed
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
     
+    private(set) lazy var containerView: UIView = {
+        let container = UIView()
+        container.backgroundColor = .magenta
+        container.translatesAutoresizingMaskIntoConstraints = false
+        return container
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.backgroundColor = .cyan
         
         setupViews()
     }
@@ -41,7 +49,6 @@ class PhotosTableViewCell: UITableViewCell {
     }
     
     func setupViews() {
-        self.addSubview(title)
         
         let ivOne = UIImageView(image: #imageLiteral(resourceName: "image5"))
         let ivTwo = UIImageView(image: #imageLiteral(resourceName: "image2"))
@@ -53,45 +60,38 @@ class PhotosTableViewCell: UITableViewCell {
         ivThree.contentMode = .scaleAspectFill
         ivFour.contentMode = .scaleAspectFill
         
-//        ivOne.translatesAutoresizingMaskIntoConstraints = false
-//        ivTwo.translatesAutoresizingMaskIntoConstraints = false
-//        ivThree.translatesAutoresizingMaskIntoConstraints = false
-//        ivFour.translatesAutoresizingMaskIntoConstraints = false
-//
-//        ivOne.bottomAnchor.constraint(equalTo: imagesStack.bottomAnchor, constant: 0).isActive = true
-//        ivTwo.bottomAnchor.constraint(equalTo: imagesStack.bottomAnchor, constant: 0).isActive = true
-//        ivThree.bottomAnchor.constraint(equalTo: imagesStack.bottomAnchor, constant: 0).isActive = true
-//        ivFour.bottomAnchor.constraint(equalTo: imagesStack.bottomAnchor, constant: 0).isActive = true
+        self.addSubview(containerView)
         
         imagesStack.addArrangedSubview(ivOne)
         imagesStack.addArrangedSubview(ivTwo)
         imagesStack.addArrangedSubview(ivThree)
         imagesStack.addArrangedSubview(ivFour)
         
-        self.addSubview(imagesStack)
-        
+        containerView.addSubview(title)
+        containerView.addSubview(imagesStack)
         setupConstraints()
-        
     }
     
     func setupConstraints() {
         
         let constraints = [
-            title.topAnchor.constraint(equalTo: contentView.topAnchor),
-            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 12),
-            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            containerView.topAnchor.constraint(equalTo: self.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: 150),
+            
+            title.topAnchor.constraint(equalTo: containerView.topAnchor),
+            title.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 12),
+            title.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             
             imagesStack.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 12),
-            imagesStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 12),
-            imagesStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            imagesStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 12),
+            imagesStack.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             imagesStack.heightAnchor.constraint(equalToConstant: 100),
-            imagesStack.widthAnchor.constraint(equalToConstant: contentView.frame.width),
-            imagesStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            imagesStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
+            imagesStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12)
         ]
-        
         NSLayoutConstraint.activate(constraints)
-        
     }
     
     /*

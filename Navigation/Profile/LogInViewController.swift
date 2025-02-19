@@ -53,21 +53,16 @@ class LogInViewController: UIViewController {
     
     lazy private var loginButton: UIButton = {
         let button = UIButton(type: .system)
-        
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         button.setBackgroundImage(UIImage(named: "blue_pixel")?.alpha(0.8), for: .selected)
         button.setBackgroundImage(UIImage(named: "blue_pixel")?.alpha(0.8), for: .highlighted)
         button.setBackgroundImage(UIImage(named: "blue_pixel")?.alpha(0.8), for: .disabled)
-        
         button.translatesAutoresizingMaskIntoConstraints = false
-        
         button.setTitleColor(.white, for: .normal)
         button.setTitle("Log in", for: .normal)
         button.roundCornersWithRadius(10, top: true, bottom: true, shadowEnabled: false)
         button.clipsToBounds = true
-        
         button.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
-        
         return button
     }()
     
@@ -82,10 +77,8 @@ class LogInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationController?.navigationBar.isHidden = true
-        
-
+    
         // Do any additional setup after loading the view.
     }
     
@@ -129,16 +122,13 @@ class LogInViewController: UIViewController {
     
     func setupViews() {
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
-        
         containerView.addSubview(logo)
         containerView.addSubview(stackView)
         stackView.addArrangedSubview(emailView)
         stackView.addArrangedSubview(passwordView)
         containerView.addSubview(loginButton)
-        
         
         let constraints = [
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -170,16 +160,13 @@ class LogInViewController: UIViewController {
             loginButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             loginButton.heightAnchor.constraint(equalToConstant: 50),
             loginButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -24)
-            
         ]
-        
         NSLayoutConstraint.activate(constraints)
     }
     
     func forTextViews(view: UITextField) {
         //view.borderStyle = .line
         view.textColor = UIColor.black
-        
         view.font = UIFont.systemFont(ofSize: 16)
         view.autocapitalizationType = .none
         view.backgroundColor = UIColor.systemGray6
