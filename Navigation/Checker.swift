@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Checker {
+class Checker: LoginViewControllerDelegate {
     static var shared = Checker()
     private let login: String = "login"
     private let password: String = "password"
@@ -21,5 +21,15 @@ class Checker {
         } else {
             return false
         }
+    }
+}
+
+protocol LoginViewControllerDelegate: AnyObject {
+    func check(with login: String, with password: String) -> Bool
+}
+
+class LoginInspector: LoginViewControllerDelegate {
+    func check(with login: String, with password: String) -> Bool {
+        return Checker.shared.check(with: login, with: password)
     }
 }

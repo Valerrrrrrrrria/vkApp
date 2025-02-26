@@ -9,8 +9,10 @@
 import UIKit
 
 class LogInViewController: UIViewController {
+    private var loginDelegate: LoginViewControllerDelegate = LoginInspector()
+    /* TODO: Внедрите зависимость контроллера LoginViewController от LoginInspector, то есть присвойте значение свойству делегата в классе SceneDelegate или AppDelegate. */
     
-    private let autorizationChecker = Checker.shared
+    //private let autorizationChecker = Checker.shared
     
     private let containerView = UIView()
     private lazy var scrollView: UIScrollView = {
@@ -69,7 +71,7 @@ class LogInViewController: UIViewController {
     }()
     
     @objc private func loginButtonPressed() {
-        if (autorizationChecker.check(with: emailView.text ?? "", with: passwordView.text ?? "")) {
+        if ((loginDelegate.check(with: emailView.text ?? "", with: passwordView.text ?? ""))) {
             let nextViewController = storyboard?.instantiateViewController(identifier: "Profile") as! ProfileViewController
             self.show(nextViewController, sender: self)
         } else {
@@ -83,7 +85,7 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
-    
+        
         // Do any additional setup after loading the view.
     }
     
