@@ -10,6 +10,8 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
+    private let autorizationChecker = Checker.shared
+    
     private let containerView = UIView()
     private lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
@@ -67,12 +69,15 @@ class LogInViewController: UIViewController {
     }()
     
     @objc private func loginButtonPressed() {
-        print("login button pressed")
-        
-        let nextViewController = storyboard?.instantiateViewController(identifier: "Profile") as! ProfileViewController
-        self.show(nextViewController, sender: self)
-        //self.present(nextViewController, animated:true, completion:nil)
-      
+        if (autorizationChecker.check(with: emailView.text ?? "", with: passwordView.text ?? "")) {
+            let nextViewController = storyboard?.instantiateViewController(identifier: "Profile") as! ProfileViewController
+            self.show(nextViewController, sender: self)
+        } else {
+            let alert = UIAlertController(title: "Неверные данные", message: "Внимание! Логин или пароль введены не верно, попробуйте ещё", preferredStyle: .alert)
+            let okAction = UIAlertAction (title: "OK", style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 
     override func viewDidLoad() {
