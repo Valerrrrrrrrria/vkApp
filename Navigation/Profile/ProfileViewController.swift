@@ -60,7 +60,7 @@ extension ProfileViewController: UITableViewDelegate {
 
 extension ProfileViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Storage.tableModel.count + 1
+        return Storage.tableModel.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,17 +69,17 @@ extension ProfileViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if (indexPath.section == 0) {
-            let cell: PhotosTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: PhotosTableViewCell.self), for: indexPath) as! PhotosTableViewCell
-            return cell
-            
-        } else {
+//        if (indexPath.section == 0) {
+//            let cell: PhotosTableViewCell = tableView.dequeueReusableCell(withIdentifier: String(describing: PhotosTableViewCell.self), for: indexPath) as! PhotosTableViewCell
+//            return cell
+//            
+//        } else {
             let cell: ProfileTableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: ProfileTableViewCell.self),
                 for: indexPath) as! ProfileTableViewCell
-            cell.post = Storage.tableModel[indexPath.section - 1]
+            cell.post = Storage.tableModel[indexPath.section]
             return cell
-        }
+//        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
