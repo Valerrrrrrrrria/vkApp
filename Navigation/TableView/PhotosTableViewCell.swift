@@ -10,7 +10,7 @@ import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
     
-    private(set) lazy var title: UILabel = {
+    private(set) lazy var titleView: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textColor = .black
@@ -24,7 +24,6 @@ class PhotosTableViewCell: UITableViewCell {
         stack.axis = .horizontal
         stack.distribution = .fillProportionally
         stack.alignment = .fill
-        stack.backgroundColor = .systemRed
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -36,9 +35,16 @@ class PhotosTableViewCell: UITableViewCell {
         return container
     }()
     
+    private(set) lazy var openGaleryButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "arrow.right"), for: .normal)
+        button.tintColor = .black
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         self.backgroundColor = .cyan
         
         setupViews()
@@ -50,25 +56,19 @@ class PhotosTableViewCell: UITableViewCell {
     
     func setupViews() {
         
-        let ivOne = UIImageView(image: #imageLiteral(resourceName: "image5"))
-        let ivTwo = UIImageView(image: #imageLiteral(resourceName: "image2"))
-        let ivThree = UIImageView(image: #imageLiteral(resourceName: "image1"))
-        let ivFour = UIImageView(image: #imageLiteral(resourceName: "image11"))
+        addSubview(containerView)
         
-        ivOne.contentMode = .scaleAspectFill
-        ivTwo.contentMode = .scaleAspectFill
-        ivThree.contentMode = .scaleAspectFill
-        ivFour.contentMode = .scaleAspectFill
+        let images: [UIImageView] = [UIImageView(image: #imageLiteral(resourceName: "image5")), UIImageView(image: #imageLiteral(resourceName: "image2")), UIImageView(image: #imageLiteral(resourceName: "image1")), UIImageView(image: #imageLiteral(resourceName: "image11"))]
         
-        self.addSubview(containerView)
+        containerView.addSubview(titleView)
+        containerView.addSubview(openGaleryButton)
         
-        imagesStack.addArrangedSubview(ivOne)
-        imagesStack.addArrangedSubview(ivTwo)
-        imagesStack.addArrangedSubview(ivThree)
-        imagesStack.addArrangedSubview(ivFour)
-        
-        containerView.addSubview(title)
+        for image in images {
+            image.contentMode = .scaleAspectFill
+            imagesStack.addArrangedSubview(image)
+        }
         containerView.addSubview(imagesStack)
+        
         setupConstraints()
     }
     
@@ -77,16 +77,19 @@ class PhotosTableViewCell: UITableViewCell {
         let constraints = [
             containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            containerView.topAnchor.constraint(equalTo: self.topAnchor),
+            containerView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 150),
+            containerView.heightAnchor.constraint(equalToConstant: 170),
             
-            title.topAnchor.constraint(equalTo: containerView.topAnchor),
-            title.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 12),
-            title.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
+            titleView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
+            titleView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            titleView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             
-            imagesStack.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 12),
-            imagesStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 12),
+            openGaleryButton.centerYAnchor.constraint(equalTo: titleView.centerYAnchor),
+            openGaleryButton.trailingAnchor.constraint(equalTo: titleView.trailingAnchor),
+            
+            imagesStack.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 12),
+            imagesStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
             imagesStack.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             imagesStack.heightAnchor.constraint(equalToConstant: 100),
             imagesStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12)

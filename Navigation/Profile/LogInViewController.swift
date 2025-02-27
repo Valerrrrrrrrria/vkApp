@@ -33,6 +33,7 @@ class LogInViewController: UIViewController {
         textField.placeholder = "Email or phone"
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.roundCornersWithRadius(10, top: true, bottom: false, shadowEnabled: false)
+        textField.text = "login"
         forTextViews(view: textField)
         return textField
     }()
@@ -43,6 +44,7 @@ class LogInViewController: UIViewController {
         textField.isSecureTextEntry = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.roundCornersWithRadius(10, top: false, bottom: true, shadowEnabled: false)
+        textField.text = "password"
         forTextViews(view: textField)
         return textField
     }()
