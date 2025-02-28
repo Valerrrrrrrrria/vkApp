@@ -25,7 +25,12 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = true
         setupViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     func setupViews() {
@@ -44,7 +49,8 @@ extension ProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            //UINavigationController.pushViewController(<#T##self: UINavigationController##UINavigationController#>)
+            let photosViewController = PhotosViewController()
+            navigationController?.pushViewController(photosViewController, animated: true)
         }
     }
     
@@ -77,7 +83,7 @@ extension ProfileViewController: UITableViewDataSource {
             let cell: ProfileTableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: ProfileTableViewCell.self),
                 for: indexPath) as! ProfileTableViewCell
-            cell.post = Storage.tableModel[indexPath.section]
+            cell.post = Storage.tableModel[indexPath.section - 1]
             return cell
         }
     }
