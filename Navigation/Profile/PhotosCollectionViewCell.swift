@@ -9,10 +9,24 @@
 import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
+    private(set) var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .red
+        
+        addSubview(imageView)
+        let imageViewConstraints = [
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ]
+        NSLayoutConstraint.activate(imageViewConstraints)
     }
     
     required init?(coder: NSCoder) {
